@@ -1,47 +1,25 @@
 import React from 'react';
-import axios from 'axios';
-import { endpoints } from '../../config';
+import { connect } from 'react-redux';
+import { fetchGenres } from '../thunks';
+import { setSelectedGenre } from '../actions';
 
-export default class Genres extends React.Component {
+class Genres extends React.Component {
   constructor() {
     super();
-
-    this.state = {
-      genres: [],
-    };
-
-    this.requestGenres();
   }
 
-  requestGenres = () => {
-    axios
-      .get(endpoints.genres())
-      .then((res) => this.setGenreList(res.data.genres))
-      .catch((error) => console.log(error));
-  };
+  componentDidMount() {
+    const { fetchGenres } = this.props;
+    fetchGenres();
+  }
 
-  requestGenresMovies = (id) => {
-    const { onChangeList } = this.props;
-
-    axios
-      .get(endpoints.genreMovies(id))
-      .then((res) => onChangeList(res.data.results))
-      .catch((error) => console.log(error));
-  };
-
-  setGenreList = (genres) => {
-    this.setState({
-      genres,
-    })
-  };
-
+ 
   render() {
-    const { genres } = this.state;
-
+    const { genres } = this.props;
     return (
       <div className="genres">
         {genres.map((genre) => (
-          <div key={genre.id} className="genre" onClick={() => this.requestGenresMovies(genre.id)}>
+          <div key={genre.id} className="genre" onClick={() => this.props.setSelectedGenre(genre.id, genre.name)}>
             {genre.name}
           </div>
         ))}
@@ -49,3 +27,16 @@ export default class Genres extends React.Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  genres: state.genres.list
+})
+
+
+const mapDispatchToProps = dispatch => ({
+  fetchGenres: () => dispatch(fetchGenres()),
+  setSelectedGenre: (genre, name) => dispatch(setSelectedGenre(genre, name))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Genres)

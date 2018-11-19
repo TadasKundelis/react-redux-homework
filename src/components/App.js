@@ -2,50 +2,22 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Card from './Card';
 import Genres from './Genres';
-import { setMovieList } from '../actions';
+import { setMovieList, addHeart, removeHeart, addLog } from '../actions';
 import { getPopularMovies } from '../thunks';
 
 class App extends React.Component {
-  constructor() {
-    super();
-
-    this.state = {
-      hearted: [],
-    };
-  }
-
+  
   componentDidMount() {
-    const { onGetPopularMovies } = this.props;
+    const log = "Aplikacija uzsikrove";
+
+    const { onGetPopularMovies, onAppLoaded } = this.props;
 
     onGetPopularMovies();
+    onAppLoaded(log);
   }
 
-  setMovieList = (movieList) => {
-    this.setState({
-      movieList,
-    })
-  };
-
-  addHeart = (id) => {
-    const { hearted } = this.state;
-
-    this.setState({
-      hearted: [ ...hearted, id ],
-    })
-  };
-
-  removeHeart = (id) => {
-    const { hearted } = this.state;
-
-    this.setState({
-      hearted: hearted.filter((currentId) => currentId !== id),
-    })
-  };
-
   render() {
-    const { hearted } = this.state;
-    const { movies } = this.props;
-
+    const { hearted, movies, onAddHeart, onRemoveHeart } = this.props;
     return (
       <React.Fragment>
         <Genres onChangeList={this.setMovieList} />
@@ -55,8 +27,8 @@ class App extends React.Component {
             <Card
               key={movie.id}
               isHearted={hearted.includes(movie.id)}
-              onAddHeart={() => this.addHeart(movie.id)}
-              onRemoveHeart={() => this.removeHeart(movie.id)}
+              onAddHeart={() => onAddHeart(movie.id, movie.title)}
+              onRemoveHeart={() => onRemoveHeart(movie.id, movie.title)}
               movie={movie}
             />
           ))}
@@ -66,16 +38,22 @@ class App extends React.Component {
   }
 }
 
+
+
 export default connect(
   (state) => {
     return {
       movies: state.movies.list,
+      hearted: state.movies.hearted
     };
   },
   (dispatch) => {
     return {
       onGetPopularMovies: () => dispatch(getPopularMovies()),
       onSetMovieList: (list) => dispatch(setMovieList(list)),
+      onAddHeart: (id, title) => dispatch(addHeart(id, title)),
+      onRemoveHeart: (id, title) => dispatch(removeHeart(id, title)),
+      onAppLoaded: (log) => dispatch(addLog(log))
     };
   }
 )(App);
