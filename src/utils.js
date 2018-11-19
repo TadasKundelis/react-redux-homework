@@ -12,5 +12,4 @@ export const getFormatedDate = () => {
     return `${year}-${month}-${day} ${hour}:${minute}:${second}: `;
 }
 
-
 const padDate = date => date < 10 ? `0${date}` : date;
