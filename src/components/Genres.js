@@ -3,24 +3,20 @@ import { connect } from 'react-redux';
 import { fetchGenres } from '../thunks';
 import { setSelectedGenre } from '../actions';
 
-class Genres extends React.Component {
-  constructor() {
-    super();
-  }
-
+export class Genres extends React.Component {
   componentDidMount() {
     const { fetchGenres } = this.props;
     fetchGenres();
   }
 
- 
+
   render() {
-    const { genres } = this.props;
+    const { genres, setSelectedGenre } = this.props;
     return (
       <div className="genres">
-        {genres.map((genre) => (
-          <div key={genre.id} className="genre" onClick={() => this.props.setSelectedGenre(genre.id, genre.name)}>
-            {genre.name}
+        {genres.map(({ id, name }) => (
+          <div key={id} className="genre" onClick={() => setSelectedGenre(id, name)}>
+            {name}
           </div>
         ))}
       </div>
@@ -30,13 +26,13 @@ class Genres extends React.Component {
 
 
 const mapStateToProps = state => ({
-  genres: state.genres.list
-})
+  genres: state.genres.list,
+});
 
 
 const mapDispatchToProps = dispatch => ({
   fetchGenres: () => dispatch(fetchGenres()),
-  setSelectedGenre: (genre, name) => dispatch(setSelectedGenre(genre, name))
-})
+  setSelectedGenre: (genre, name) => dispatch(setSelectedGenre(genre, name)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Genres)
+export default connect(mapStateToProps, mapDispatchToProps)(Genres);

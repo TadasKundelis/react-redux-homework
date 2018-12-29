@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`addLog action creator should create an action to add a log 1`] = `
+Array [
+  Object {
+    "list": Array [],
+    "type": "SET_MOVIE_LIST",
+  },
+  Object {
+    "list": Array [],
+    "type": "SET_GENRE_LIST",
+  },
+  Object {
+    "log": "2018-12-29 03:17:38: this is a new log",
+    "type": "ADD_LOG",
+  },
+]
+`;
+
+exports[`setGenreList action creator should create an action to set genre list 1`] = `
+Array [
+  Object {
+    "list": Array [],
+    "type": "SET_MOVIE_LIST",
+  },
+  Object {
+    "list": Array [],
+    "type": "SET_GENRE_LIST",
+  },
+]
+`;
+
+exports[`setMovieList action creator should create an action to set movie list 1`] = `
+Array [
+  Object {
+    "list": Array [],
+    "type": "SET_MOVIE_LIST",
+  },
+]
+`;

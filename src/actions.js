@@ -1,16 +1,16 @@
-import { getFormatedDate } from "./utils";
-import { fetchGenresMovies } from "./thunks";
+import getFormatedDate from './utils';
+import { fetchGenresMovies } from './thunks';
 
-export const setMovieList = (list) => ({
+export const setMovieList = list => ({
   type: 'SET_MOVIE_LIST',
   list,
 });
 
 
-export const setGenreList = (list) => ({
+export const setGenreList = list => ({
   type: 'SET_GENRE_LIST',
-  list
-})
+  list,
+});
 
 export const setSelectedGenre = (genre, genreName) => (dispatch, getState) => {
   if (getState().genres.selected === genre) return;
@@ -19,43 +19,33 @@ export const setSelectedGenre = (genre, genreName) => (dispatch, getState) => {
   dispatch(addLog(log));
   dispatch({
     type: 'SET_SELECTED_GENRE',
-    genre
-  })
-}
+    genre,
+  });
+};
 
-export const addHeart = (movie, title) => dispatch => {
+export const addHeart = (movie, title) => (dispatch) => {
   const log = `${title} buvo uzsirdintas`;
   dispatch(addLog(log));
-  dispatch ({
+  dispatch({
     type: 'ADD_TO_HEARTED',
-    movie
-  })
-}
+    movie,
+  });
+};
 
-export const removeHeart = (movie, title) => dispatch => {
+export const removeHeart = (movie, title) => (dispatch) => {
   const log = `${title} buvo nusirdintas`;
   dispatch(addLog(log));
   dispatch({
     type: 'REMOVE_FROM_HEARTED',
-    movie
-  })
-}
+    movie,
+  });
+};
 
-export const appLoaded = (log) => dispatch => {
-  dispatch(addLog(log))
-}
+export const appLoaded = log => (dispatch) => {
+  dispatch(addLog(log));
+};
 
-export const addLog = (log) => ({
-  type: "ADD_LOG",
-  log: getFormatedDate() + log
-})
-
-
-
-
-
-
-
-
-
-
+export const addLog = log => ({
+  type: 'ADD_LOG',
+  log: getFormatedDate() + log,
+});
