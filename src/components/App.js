@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Card from './Card';
 import Genres from './Genres';
-import { setMovieList, addHeart, removeHeart, addLog } from '../actions';
+import {
+  setMovieList, addHeart, removeHeart, addLog
+} from '../actions';
 import { getPopularMovies } from '../thunks';
 
 class App extends React.Component {
-  
   componentDidMount() {
-    const log = "Aplikacija uzsikrove";
+    const log = 'Aplikacija uzsikrove';
 
     const { onGetPopularMovies, onAppLoaded } = this.props;
 
@@ -17,13 +18,15 @@ class App extends React.Component {
   }
 
   render() {
-    const { hearted, movies, onAddHeart, onRemoveHeart } = this.props;
+    const {
+      hearted, movies, onAddHeart, onRemoveHeart
+    } = this.props;
     return (
       <React.Fragment>
         <Genres onChangeList={this.setMovieList} />
 
         <div className="cards">
-          {movies.map((movie) => (
+          {movies.map(movie => (
             <Card
               key={movie.id}
               isHearted={hearted.includes(movie.id)}
@@ -39,21 +42,16 @@ class App extends React.Component {
 }
 
 
-
 export default connect(
-  (state) => {
-    return {
-      movies: state.movies.list,
-      hearted: state.movies.hearted
-    };
-  },
-  (dispatch) => {
-    return {
-      onGetPopularMovies: () => dispatch(getPopularMovies()),
-      onSetMovieList: (list) => dispatch(setMovieList(list)),
-      onAddHeart: (id, title) => dispatch(addHeart(id, title)),
-      onRemoveHeart: (id, title) => dispatch(removeHeart(id, title)),
-      onAppLoaded: (log) => dispatch(addLog(log))
-    };
-  }
+  state => ({
+    movies: state.movies.list,
+    hearted: state.movies.hearted
+  }),
+  dispatch => ({
+    onGetPopularMovies: () => dispatch(getPopularMovies()),
+    onSetMovieList: list => dispatch(setMovieList(list)),
+    onAddHeart: (id, title) => dispatch(addHeart(id, title)),
+    onRemoveHeart: (id, title) => dispatch(removeHeart(id, title)),
+    onAppLoaded: log => dispatch(addLog(log))
+  })
 )(App);
