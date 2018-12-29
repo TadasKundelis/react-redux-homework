@@ -2,12 +2,12 @@ import React from 'react';
 import { getImageUrl } from '../../config';
 
 export default class Card extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
       opened: false,
     };
+    this.toggleSummary = this.toggleSummary.bind(this);
   }
 
   toggleSummary = () => {
